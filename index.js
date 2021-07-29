@@ -9,7 +9,7 @@ const handlebarSetup = exphbs({
     layoutsDir: './views/layouts',
 });
 
-var moment = require('moment'); // require
+var moment = require('moment'); 
 moment().format();
 
 const app = express();
