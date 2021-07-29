@@ -33,8 +33,8 @@ module.exports = function SettingsBill() {
         else if (action === 'call') {
             cost = callCost;
         }
-    }
-        if(action ==='sms'|| action === 'call' && cost > 0){
+    
+        if(action ==='sms'|| action === 'call' && cost >= 0){
         actionList.push({
             type: action,
             cost,
@@ -42,7 +42,7 @@ module.exports = function SettingsBill() {
         });
     }
     }
-
+    }
     function actions() {
         return actionList;
     }
