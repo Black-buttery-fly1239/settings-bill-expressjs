@@ -9,7 +9,7 @@ const handlebarSetup = exphbs({
     layoutsDir: './views/layouts',
 });
 
-var moment = require('moment'); 
+var moment = require('moment');
 moment().format();
 
 const app = express();
@@ -28,20 +28,20 @@ app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
 
-    
+
     let className = '';
-    
-    
-    if(settingsBill.hasReachedWarningLevel()){
+
+
+    if (settingsBill.hasReachedWarningLevel()) {
         className = 'warning'
     }
-    
-    if(settingsBill.hasReachedCriticalLevel()){
+
+    if (settingsBill.hasReachedCriticalLevel()) {
         className = 'danger'
     }
-    
+
     res.render('index', {
-        
+
         settings: settingsBill.getSettings(),
         totals: settingsBill.totals(),
         classTotals: className
@@ -50,41 +50,41 @@ app.get('/', function (req, res) {
 
 app.post('/settings', function (req, res) {
     // console.log(req.body);
-    
+
     settingsBill.setSettings({
-        
+
         callCost: req.body.callCost,
         smsCost: req.body.smsCost,
         warningLevel: req.body.warningLevel,
         criticalLevel: req.body.criticalLevel,
     })
     res.redirect('/');
-    
+
 });
 
 app.post('/action', function (req, res) {
     // console.log(req.body.actionType);
-    
+
     settingsBill.recordAction(req.body.actionType)
     res.redirect('/');
 });
 
-app.get('/actions', function (req, res){
+app.get('/actions', function (req, res) {
 
-    var theAction = settingsBill.actions();
-    theAction.forEach(element => {
+    var theActions = settingsBill.actions();
+    theActions.forEach(element => {
         element.theTime = moment(element.timestamp).fromNow()
     });
 
     res.render('actions', {
-         actions: theAction
-         });
+        actions: theActions
+    });
 });
 
 app.get('/actions/:actionType', function (req, res) {
 
 
-    const actionType = req.params.actionType ;
+    const actionType = req.params.actionType;
     res.render('actions', { actions: settingsBill.actionsFor(actionType) })
 });
 
